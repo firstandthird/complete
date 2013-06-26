@@ -1,0 +1,15 @@
+{
+  "name": "complete",
+  "description": "Autocomplete Plugin",
+  "version": "0.1.0",
+  "homepage": "http://github.com/jgallen23/complete",
+  "license": "MIT",
+  "copyright": "Greg Allen",
+  "main": "dist/fidel.complete.js",
+  "dependencies": {
+    "fidel": "2.*"
+  },
+  "devDependencies": {
+    "assert": "*"
+  }
+}
