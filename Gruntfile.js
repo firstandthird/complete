@@ -3,12 +3,12 @@ module.exports = function(grunt) {
     info: grunt.file.readJSON('bower.json'),
     meta: {
       banner: '/*!\n'+
-              ' * <%= info.name %> - <%= info.description %>\n'+
-              ' * v<%= info.version %>\n'+
-              ' * <%= info.homepage %>\n'+
-              ' * copyright <%= info.copyright %> <%= grunt.template.today("yyyy") %>\n'+
-              ' * <%= info.license %> License\n'+
-              '*/\n'
+        ' * <%= info.name %> - <%= info.description %>\n'+
+        ' * v<%= info.version %>\n'+
+        ' * <%= info.homepage %>\n'+
+        ' * copyright <%= info.copyright %> <%= grunt.template.today("yyyy") %>\n'+
+        ' * <%= info.license %> License\n'+
+        '*/\n'
     },
     jshint: {
       main: [
@@ -58,14 +58,14 @@ module.exports = function(grunt) {
         dest: 'dist/complete.min.js'
       }
     },
-    clean: [
+    clean: {
       bower: [
         'dist/_bower.js'
       ],
       dist: [
         'dist'
       ]
-    ],
+    },
     watch: {
       scripts: {
         files: '<%= jshint.main %>',

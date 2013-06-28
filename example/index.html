@@ -6,6 +6,17 @@
   </head>
   <body>
 
+  <input type="text" id="autocomplete"/>
+
+    <script src="../components/jquery/jquery.min.js"></script>
+    <script src="../components/fidel/dist/fidel.min.js"></script>
     <script src="../dist/complete.js"></script>
+    <script>
+        (function(){
+            $('#autocomplete').autocomplete({
+                values : ['test','tost']
+            });
+        })(jQuery);
+    </script>
   </body>
 </html>
