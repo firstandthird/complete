@@ -76,7 +76,7 @@ module.exports = function(grunt) {
           'GruntFile.js',
           'test/index.html'
         ],
-        tasks: 'default'
+        tasks: ['default','mocha']
       }
     },
     mocha: {

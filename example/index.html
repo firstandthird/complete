@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>complete example</title>
+    <link rel="stylesheet" type="text/css" href="../lib/complete.css">
   </head>
   <body>
 
@@ -14,7 +15,14 @@
     <script>
         (function(){
             $('#autocomplete').autocomplete({
-                values : ['test','tost']
+                source : [
+                    'Acura', 'Audi', 'BMW', 'Cadillac',
+                    'Chrysler', 'Dodge', 'Ferrari', 'Ford',
+                    'GMC', 'Honda', 'Hyundai', 'Infiniti',
+                    'Jeep', 'Kia', 'Lexus', 'Mini',
+                    'Nissan', 'Porsche', 'Subaru', 'Toyota',
+                    'Volkswagon', 'Volvo'
+                ]
             });
         })(jQuery);
     </script>

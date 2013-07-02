@@ -1,0 +1,29 @@
+div.fidel-autocomplete {
+  border: 1px solid #EEE;
+  background: #FFF;
+  border-radius: 2px;
+  position: absolute;
+  margin: 1px;
+  overflow-y: auto;
+}
+div.fidel-autocomplete, div.fidel-autocomplete * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+div.fidel-autocomplete ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+div.fidel-autocomplete li {
+  padding: 5px;
+}
+
+div.fidel-autocomplete .fidel-autocomplete-active {
+  background: #d9f0d4;
+}
+
+div.fidel-autocomplete strong {
+  color: #74c962;
+}
