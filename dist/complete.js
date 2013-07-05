@@ -383,6 +383,7 @@
         $(this.listHolder).show();
       }
       else {
+        $(this.list).empty();
         this.hide();
       }
     },
