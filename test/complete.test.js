@@ -14,9 +14,9 @@ function changeValueAndGetFirst (autocomplete, autocompleteDiv, value){
 }
 
 suite('complete', function() {
-  var autocomplete, fidelAutocomplete, autocompleteDiv;
+  var autocomplete, fidelAutocomplete, autocompleteDiv, keyPress;
 
-  setup(function(){
+  suiteSetup(function(){
     autocomplete = $('#autocomplete').autocomplete({
       source : autocompleteSource
     });
@@ -78,6 +78,50 @@ suite('complete', function() {
     });
   });
   suite('key accesibility', function(){
+    setup(function(){
+      autocomplete.val('a');
+      autocomplete.trigger('keyup');
+      keyPress = $.Event('keydown');
+      keyPress.ctrlKey = false;
+    });
+    test('arrow down should select the next suggestion', function(){
+      var currentSuggestion = fidelAutocomplete.selectedIndex;
+      keyPress.keyCode = fidelAutocomplete.keyCode.DOWN;
+      autocomplete.trigger(keyPress);
+      assert.equal(fidelAutocomplete.selectedIndex, currentSuggestion+1);
+    });
+    test('arrow up should select the previous suggestion', function(){
+      var currentSuggestion;
+      keyPress.keyCode = fidelAutocomplete.keyCode.DOWN;
+      autocomplete.trigger(keyPress);
+      currentSuggestion = fidelAutocomplete.selectedIndex;
+      autocomplete.trigger(keyPress);
+      keyPress.keyCode = fidelAutocomplete.keyCode.UP;
+      autocomplete.trigger(keyPress);
+
+      assert.equal(fidelAutocomplete.selectedIndex, currentSuggestion);
+    });
+    test('enter should change the value to the current selected suggestion', function(){
+      keyPress.keyCode = fidelAutocomplete.keyCode.DOWN;
+      autocomplete.trigger(keyPress);
+      var suggestionValue = fidelAutocomplete.suggestions[fidelAutocomplete.selectedIndex];
+      keyPress.keyCode = fidelAutocomplete.keyCode.ENTER;
+      autocomplete.trigger(keyPress);
+      assert.equal(autocomplete.val(), suggestionValue);
+    });
+    test('escape should return the input to the default value', function(){
+      autocomplete.trigger('keyup');
+      var esc = $.Event('keydown'),
+          originalValue = autocomplete.val();
+
+      esc.keyCode = fidelAutocomplete.keyCode.ESC;
+      keyPress.keyCode = fidelAutocomplete.keyCode.DOWN;
+
+      autocomplete.trigger(keyPress);
+      autocomplete.trigger(esc);
+
+      assert.equal(autocomplete.val(), originalValue);
+    });
 
   });
 });

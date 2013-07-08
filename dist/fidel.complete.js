@@ -152,8 +152,8 @@
     },
     _adjustPosition : function(index){
       var selected = this.activateSuggestion(index),
-        selTop, upperLimit, lowerLimit, elementHeight,
-        listHolder = $(this.listHolder);
+          selTop, upperLimit, lowerLimit, elementHeight,
+          listHolder = $(this.listHolder);
 
       if (selected){
         selTop = selected.offsetTop;
@@ -199,7 +199,7 @@
     },
     activateSuggestion : function(index){
       var classSelected = this.suggestionActiveClass,
-        list = $(this.list);
+          list = $(this.list);
 
       list.children('.' + classSelected).removeClass(classSelected);
       this.selectedIndex = index;
