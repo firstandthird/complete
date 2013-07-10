@@ -15,16 +15,16 @@ Autocomplete Plugin
 
 ##Usage
 
-Usage is fairly simple. Just target an input and call autocomplete on top of it:
+Usage is fairly simple. Just target an input and call complete on top of it:
 
 ```
-$('#test').autocomplete();
+$('#test').complete();
 ```
 
 The only mandatory option is the `source` which is an array of words you want to auto-suggest. For example:
 
 ```
-$('#test').autocomplete({
+$('#test').complete({
     source : ['jQuery', 'Backbone', 'Ember', 'Prototype', 'Angular']
 });
 ```

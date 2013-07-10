@@ -11,14 +11,14 @@
     return value.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
   }
 
-  $.declare('autocomplete',{
+  $.declare('complete',{
     defaults : {
       search : function(suggestion, queryOriginal, queryLowerCase){
         return suggestion.toLowerCase().indexOf(queryLowerCase.toLowerCase()) !== -1;
       },
-      listClass : 'fidel-autocomplete',
-      suggestionActiveClass : 'fidel-autocomplete-active',
-      suggestionClass : 'fidel-autocomplete-suggestion',
+      listClass : 'fidel-complete',
+      suggestionActiveClass : 'fidel-complete-active',
+      suggestionClass : 'fidel-complete-suggestion',
       maxHeight : 300,
       minChars : 0,
       zIndex : 99999,
@@ -69,8 +69,8 @@
         var target = self._getTarget(e);
         self.activateSuggestion.apply(self, [target.data('index')]);
       });
-      $list.on('mouseout', 'li', $.proxy(this.deActivateSuggestion,this));
-      $list.on('click', 'li', $.proxy(this.selectSuggestion,this));
+      $list.on('mouseout', 'li', this.proxy(this.deActivateSuggestion,this));
+      $list.on('click', 'li', this.proxy(this.selectSuggestion,this));
     },
     keyPressed : function(event){
       switch(event.keyCode){
@@ -104,12 +104,12 @@
       this.valueChanged();
     },
     onBlur : function(){
-      $(document).on('click.autocomplete', $.proxy(this.onClickWA,this));
+      $(document).on('click.complete', this.proxy(this.onClickWA,this));
     },
     onClickWA : function(event){
       if ($(event.target).closest('.' + this.listClass).length === 0) {
         this.hide();
-        $(document).off('click.autocomplete');
+        $(document).off('click.complete');
       }
     },
     valueChanged : function(){
@@ -215,7 +215,7 @@
     selectSuggestion : function(){
       $(this.el).val(this.suggestions[this.selectedIndex]);
       this.currentValue = this.suggestions[this.selectedIndex];
-      $(this.el).trigger('selected.autocomplete', [this.currentValue]);
+      this.emit('select',this.currentValue);
       this.hide();
     },
     _getTarget : function(e){

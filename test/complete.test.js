@@ -1,4 +1,4 @@
-var autocompleteSource = [
+var completeSource = [
   'Acura', 'Audi', 'BMW', 'Cadillac',
   'Chrysler', 'Dodge', 'Ferrari', 'Ford',
   'GMC', 'Honda', 'Hyundai', 'Infiniti',
@@ -7,121 +7,136 @@ var autocompleteSource = [
   'Volkswagon', 'Volvo'
 ];
 
-function changeValueAndGetFirst (autocomplete, autocompleteDiv, value){
-  autocomplete.val(value);
-  autocomplete.trigger('keyup');
-  return autocompleteDiv.find('li').first();
+function changeValueAndGetFirst (complete, completeDiv, value){
+  complete.val(value);
+  complete.trigger('keyup');
+  return completeDiv.find('li').first();
+}
+function writeValue (complete, value) {
+  complete.val(value);
+  complete.trigger('keyup');
 }
 
 suite('complete', function() {
-  var autocomplete, fidelAutocomplete, autocompleteDiv, keyPress;
+  var complete, fidelComplete, completeDiv, keyPress;
 
   suiteSetup(function(){
-    autocomplete = $('#autocomplete').autocomplete({
-      source : autocompleteSource
+    complete = $('#autocomplete').complete({
+      source : completeSource
     });
-    fidelAutocomplete = autocomplete.data('autocomplete');
-    autocompleteDiv = autocomplete.next();
+    fidelComplete = complete.data('complete');
+    completeDiv = complete.next();
   });
 
   suite('init',function(){
-    test('autocomplete should exists in jQuery', function(){
-      assert.equal(typeof $().autocomplete, 'function');
+    test('complete should exists in jQuery', function(){
+      assert.equal(typeof $().complete, 'function');
     });
-    test('autocomplete should create a div in which results will be presented', function(){
-      assert.equal(autocompleteDiv.hasClass(fidelAutocomplete.listClass), true);
+    test('complete should create a div in which results will be presented', function(){
+      assert.equal(completeDiv.hasClass(fidelComplete.listClass), true);
     });
-    test('autocomplete should turn browser autocompletion off', function(){
-      assert.equal(autocomplete.attr('autocomplete'), 'off');
+    test('complete should turn browser autocompletion off', function(){
+      assert.equal(complete.attr('autocomplete'), 'off');
     });
-    test('autocomplete should store internal sources', function(){
-      assert.equal(autocompleteSource.length, fidelAutocomplete.source.length);
+    test('complete should store internal sources', function(){
+      assert.equal(completeSource.length, fidelComplete.source.length);
     });
   });
   suite('suggestions', function(){
-    test('autocomplete should offer suggestions on keypress', function(){
-      autocomplete.val('a');
-      autocomplete.trigger('keyup');
-      assert.ok(autocompleteDiv.find('li').length > 0);
+    test('complete should offer suggestions on keypress', function(){
+      writeValue(complete,'a');
+      assert.ok(completeDiv.find('li').length > 0);
     });
-    test('autocomplete shouldn\'t offer suggestions when value is not in source', function(){
-      autocomplete.val('z');
-      autocomplete.trigger('keyup');
-
-      assert.equal(autocompleteDiv.find('li').length, 0);
+    test('complete shouldn\'t offer suggestions when value is not in source', function(){
+      writeValue(complete,'z');
+      assert.equal(completeDiv.find('li').length, 0);
     });
     test('suggestions should receive a special class on hover', function(){
-      var firstLi = changeValueAndGetFirst(autocomplete,autocompleteDiv,'a');
+      var firstLi = changeValueAndGetFirst(complete,completeDiv,'a');
       firstLi.trigger('mouseover');
 
-      assert.ok(firstLi.hasClass(fidelAutocomplete.suggestionActiveClass));
+      assert.ok(firstLi.hasClass(fidelComplete.suggestionActiveClass));
     });
-    test('autocomplete should keep track of which suggestion has been hovered', function(){
-      var firstLi = changeValueAndGetFirst(autocomplete,autocompleteDiv,'a');
+    test('complete should keep track of which suggestion has been hovered', function(){
+      var firstLi = changeValueAndGetFirst(complete,completeDiv,'a');
       firstLi.trigger('mouseover');
 
-      assert.equal(firstLi.data('index'),fidelAutocomplete.selectedIndex);
+      assert.equal(firstLi.data('index'),fidelComplete.selectedIndex);
     });
     test('suggestions should remove the special class on mouseout', function(){
-      var firstLi = changeValueAndGetFirst(autocomplete,autocompleteDiv,'a');
+      var firstLi = changeValueAndGetFirst(complete,completeDiv,'a');
       firstLi.trigger('mouseover');
       firstLi.trigger('mouseout');
 
-      assert.ok(!firstLi.hasClass(fidelAutocomplete.suggestionActiveClass));
+      assert.ok(!firstLi.hasClass(fidelComplete.suggestionActiveClass));
     });
-    test('autocomplete should keep track that suggestion has been unselected', function(){
-      var firstLi = changeValueAndGetFirst(autocomplete,autocompleteDiv,'a');
+    test('complete should keep track that suggestion has been unselected', function(){
+      var firstLi = changeValueAndGetFirst(complete,completeDiv,'a');
       firstLi.trigger('mouseover');
       firstLi.trigger('mouseout');
 
-      assert.equal(-1,fidelAutocomplete.selectedIndex);
+      assert.equal(-1,fidelComplete.selectedIndex);
     });
   });
   suite('key accesibility', function(){
     setup(function(){
-      autocomplete.val('a');
-      autocomplete.trigger('keyup');
+      writeValue(complete,'a');
       keyPress = $.Event('keydown');
       keyPress.ctrlKey = false;
     });
     test('arrow down should select the next suggestion', function(){
-      var currentSuggestion = fidelAutocomplete.selectedIndex;
-      keyPress.keyCode = fidelAutocomplete.keyCode.DOWN;
-      autocomplete.trigger(keyPress);
-      assert.equal(fidelAutocomplete.selectedIndex, currentSuggestion+1);
+      var currentSuggestion = fidelComplete.selectedIndex;
+      keyPress.keyCode = fidelComplete.keyCode.DOWN;
+      complete.trigger(keyPress);
+      assert.equal(fidelComplete.selectedIndex, currentSuggestion+1);
     });
     test('arrow up should select the previous suggestion', function(){
       var currentSuggestion;
-      keyPress.keyCode = fidelAutocomplete.keyCode.DOWN;
-      autocomplete.trigger(keyPress);
-      currentSuggestion = fidelAutocomplete.selectedIndex;
-      autocomplete.trigger(keyPress);
-      keyPress.keyCode = fidelAutocomplete.keyCode.UP;
-      autocomplete.trigger(keyPress);
+      keyPress.keyCode = fidelComplete.keyCode.DOWN;
+      complete.trigger(keyPress);
+      currentSuggestion = fidelComplete.selectedIndex;
+      complete.trigger(keyPress);
+      keyPress.keyCode = fidelComplete.keyCode.UP;
+      complete.trigger(keyPress);
 
-      assert.equal(fidelAutocomplete.selectedIndex, currentSuggestion);
+      assert.equal(fidelComplete.selectedIndex, currentSuggestion);
     });
     test('enter should change the value to the current selected suggestion', function(){
-      keyPress.keyCode = fidelAutocomplete.keyCode.DOWN;
-      autocomplete.trigger(keyPress);
-      var suggestionValue = fidelAutocomplete.suggestions[fidelAutocomplete.selectedIndex];
-      keyPress.keyCode = fidelAutocomplete.keyCode.ENTER;
-      autocomplete.trigger(keyPress);
-      assert.equal(autocomplete.val(), suggestionValue);
+      keyPress.keyCode = fidelComplete.keyCode.DOWN;
+      complete.trigger(keyPress);
+      var suggestionValue = fidelComplete.suggestions[fidelComplete.selectedIndex];
+      keyPress.keyCode = fidelComplete.keyCode.ENTER;
+      complete.trigger(keyPress);
+      assert.equal(complete.val(), suggestionValue);
     });
     test('escape should return the input to the default value', function(){
-      autocomplete.trigger('keyup');
+      complete.trigger('keyup');
       var esc = $.Event('keydown'),
-          originalValue = autocomplete.val();
+          originalValue = complete.val();
 
-      esc.keyCode = fidelAutocomplete.keyCode.ESC;
-      keyPress.keyCode = fidelAutocomplete.keyCode.DOWN;
+      esc.keyCode = fidelComplete.keyCode.ESC;
+      keyPress.keyCode = fidelComplete.keyCode.DOWN;
 
-      autocomplete.trigger(keyPress);
-      autocomplete.trigger(esc);
+      complete.trigger(keyPress);
+      complete.trigger(esc);
 
-      assert.equal(autocomplete.val(), originalValue);
+      assert.equal(complete.val(), originalValue);
     });
+  });
+  suite('events', function(){
+    test('a \'select\' event should be fired when selecting a suggestion', function(done){
+      var enter = $.Event('keydown'),
+          down = $.Event('keydown');
 
+      enter.keyCode = fidelComplete.keyCode.ENTER;
+      down.keyCode = fidelComplete.keyCode.DOWN;
+
+      complete.on('select',function(){
+        done();
+      });
+      writeValue(complete,'b');
+      complete.trigger(down);
+      complete.trigger(enter);
+    });
   });
 });

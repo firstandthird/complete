@@ -14,7 +14,7 @@
     <script src="../dist/complete.js"></script>
     <script>
         (function(){
-            $('#autocomplete').autocomplete({
+            var complete = $('#autocomplete').complete({
                 source : [
                     'Acura', 'Audi', 'BMW', 'Cadillac',
                     'Chrysler', 'Dodge', 'Ferrari', 'Ford',
@@ -23,6 +23,9 @@
                     'Nissan', 'Porsche', 'Subaru', 'Toyota',
                     'Volkswagon', 'Volvo'
                 ]
+            });
+            complete.on('select',function(event, value){
+                console.log('Selected value: ' + value);
             });
         })(jQuery);
     </script>
