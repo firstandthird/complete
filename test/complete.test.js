@@ -77,6 +77,17 @@ suite('complete', function() {
 
       assert.equal(-1,fidelComplete.selectedIndex);
     });
+    test('complete should use an alternate function if query parameter is passed', function(){
+      var mockData = ['Andy','Arnold'],
+          originalQuery = fidelComplete.query;
+
+      fidelComplete.query = function(query,callback){
+        callback.call(this, mockData);
+      };
+      writeValue(complete,'A');
+      fidelComplete.query = originalQuery;
+      assert.deepEqual(fidelComplete.suggestions, mockData);
+    });
   });
   suite('key accesibility', function(){
     setup(function(){

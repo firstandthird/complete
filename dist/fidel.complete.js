@@ -25,6 +25,15 @@
       formatSuggestion : function(suggestion, value){
         var pattern = '(' + escapeString(value) + ')';
         return suggestion.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
+      },
+      query : function(query, callback){
+        var queryLower = query.toLowerCase(), self = this;
+
+        var suggestions = $.grep(this.source, function(suggestion){
+          return self.search(suggestion, query, queryLower);
+        });
+
+        callback.apply(this,[suggestions]);
       }
     },
     events : {
@@ -176,26 +185,29 @@
       $(this.listHolder).hide();
     },
     show : function(){
-      this.suggestions = this._getSuggestions(this.currentValue);
+      var self = this;
 
-      if (this.suggestions && $.isArray(this.suggestions) && this.suggestions.length){
-        this.visible = true;
-        var self = this,
-          value = this.currentValue,
-          className = this.suggestionClass,
-          html = '';
+      this.query.call(self,this.currentValue,function(suggestions){
+        if (suggestions && $.isArray(suggestions) && suggestions.length){
+          self.visible = true;
+          var value = self.currentValue,
+              className = self.suggestionClass,
+              html = '';
 
-        $.each(this.suggestions, function(i, suggestion){
-          html += '<li class="'+ className +'" data-index="' + i +'">' + self.formatSuggestion(suggestion,value) + '</li>';
-        });
+          self.suggestions = suggestions;
 
-        $(this.list).html(html);
-        $(this.listHolder).show();
-      }
-      else {
-        $(this.list).empty();
-        this.hide();
-      }
+          $.each(suggestions, function(i, suggestion){
+            html += '<li class="'+ className +'" data-index="' + i +'">' + self.formatSuggestion(suggestion,value) + '</li>';
+          });
+
+          $(self.list).html(html);
+          $(self.listHolder).show();
+        }
+        else {
+          $(self.list).empty();
+          self.hide();
+        }
+      });
     },
     activateSuggestion : function(index){
       var classSelected = this.suggestionActiveClass,

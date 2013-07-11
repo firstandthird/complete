@@ -68,6 +68,16 @@ A function that is used to format a suggestion while typing. Function receives t
 * `suggestion` : The value of the full suggestion
 * `value` : The value typed on the input.
 
+#### `query`
+
+A function that is used to retreive suggestions. By default, it will use the internal sources, however you can write your
+own function to query a database and return an array of suggestions. This function receives two parameters
+
+* `query` : The value entered by the user
+* `callback` : The function that you should call, passing the suggestions as an array, once you finished getting your results
+
+** Note ** : `this` will be the widget object, is your responsability to mantain the scope within the callback!
+
 ##Development
 
 ###Requirements
