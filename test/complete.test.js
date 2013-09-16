@@ -150,4 +150,10 @@ suite('complete', function() {
       complete.trigger(enter);
     });
   });
+  suite('source', function(){
+    test('setSource should set this.source', function(){
+      complete.complete('setSource', ['test', 'test2', 'America', 'France']);
+      assert.equal(4, fidelComplete.source.length);
+    });
+  });
 });
