@@ -1,4 +1,10 @@
 
+0.2.0 / 2013-09-16 
+==================
+
+  * Added setSource method and test.
+  * Added new bower components directory to ignore.
+
 0.1.0 / 2013-08-20 
 ==================
 

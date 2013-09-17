@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.1.0
+ * v0.2.0
  * http://github.com/jgallen23/complete
  * copyright Greg Allen 2013
  * MIT License
@@ -422,6 +422,9 @@
     },
     _getTarget : function(e){
       return $(e.currentTarget || e.toElement);
+    },
+    setSource: function(source){
+      this.source = source;
     }
   });
 })(jQuery);
