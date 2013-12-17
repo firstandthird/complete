@@ -1,4 +1,10 @@
 
+0.3.0 / 2013-12-16 
+==================
+
+ * Merge pull request #6 from firstandthird/feature/5-format-method
+ * Added format method.
+
 0.2.0 / 2013-09-16 
 ==================
 

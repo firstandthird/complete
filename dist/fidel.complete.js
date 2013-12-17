@@ -22,6 +22,9 @@
       maxHeight : 300,
       minChars : 0,
       zIndex : 99999,
+      format: function(value) {
+        return value;
+      },
       formatSuggestion : function(suggestion, value){
         var pattern = '(' + escapeString(value) + ')';
         return suggestion.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
@@ -177,7 +180,7 @@
           listHolder.scrollTop(selTop - this.maxHeight + elementHeight);
         }
 
-        $(this.el).val(this.suggestions[index]);
+        $(this.el).val(this.format(this.suggestions[index]));
       }
     },
     hide : function(){
@@ -225,7 +228,7 @@
       this.selectedIndex = -1;
     },
     selectSuggestion : function(){
-      $(this.el).val(this.suggestions[this.selectedIndex]);
+      $(this.el).val(this.format(this.suggestions[this.selectedIndex]));
       this.currentValue = this.suggestions[this.selectedIndex];
       this.emit('select',this.currentValue);
       this.hide();
