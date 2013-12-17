@@ -156,4 +156,23 @@ suite('complete', function() {
       assert.equal(4, fidelComplete.source.length);
     });
   });
+  suite('format', function(){
+    setup(function(){
+      writeValue(complete,'a');
+      keyPress = $.Event('keydown');
+      keyPress.ctrlKey = false;
+    });
+    test('output', function(){
+      fidelComplete.format = function(val) {
+        return val.toUpperCase();
+      };
+
+      keyPress.keyCode = fidelComplete.keyCode.DOWN;
+      complete.trigger(keyPress);
+      var suggestionValue = fidelComplete.suggestions[fidelComplete.selectedIndex];
+      keyPress.keyCode = fidelComplete.keyCode.ENTER;
+      complete.trigger(keyPress);
+      assert.equal(complete.val(), suggestionValue.toUpperCase());
+    });
+  });
 });
