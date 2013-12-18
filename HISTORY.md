@@ -1,4 +1,10 @@
 
+0.4.0 / 2013-12-18 
+==================
+
+ * Merge pull request #9 from firstandthird/feature/8-debounce-input
+ * Added debounce method to run against input.
+
 0.3.0 / 2013-12-16 
 ==================
 

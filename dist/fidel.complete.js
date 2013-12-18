@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.2.0
+ * v0.3.0
  * http://github.com/jgallen23/complete
  * copyright Greg Allen 2013
  * MIT License
@@ -22,6 +22,7 @@
       maxHeight : 300,
       minChars : 0,
       zIndex : 99999,
+      delay : 300,
       format: function(value) {
         return value;
       },
@@ -57,6 +58,20 @@
       this.visible = false;
       this.currentValue = this.el.value;
       this.selectedIndex = -1;
+    },
+    debounce : function(func) {
+      var self = this;
+      var args = arguments;
+
+      if(this.delay > 0) {
+        clearTimeout(this.debounceTimeout);
+
+        this.debounceTimeout = setTimeout(function(){
+          func.apply(self, args);
+        }, this.delay);
+      } else {
+        func.apply(this, args);
+      }
     },
     createListHolder : function(){
       var $el = $(this.el);
@@ -113,7 +128,8 @@
         case this.keyCode.DOWN :
           return;
       }
-      this.valueChanged();
+
+      this.debounce(this.valueChanged);
     },
     onBlur : function(){
       $(document).on('click.complete', this.proxy(this.onClickWA,this));
