@@ -22,7 +22,8 @@ suite('complete', function() {
 
   suiteSetup(function(){
     complete = $('#autocomplete').complete({
-      source : completeSource
+      source : completeSource,
+      delay: 0
     });
     fidelComplete = complete.data('complete');
     completeDiv = complete.next();
@@ -173,6 +174,26 @@ suite('complete', function() {
       keyPress.keyCode = fidelComplete.keyCode.ENTER;
       complete.trigger(keyPress);
       assert.equal(complete.val(), suggestionValue.toUpperCase());
+    });
+  });
+  suite('debounce', function(){
+    setup(function(){
+      keyPress = $.Event('keydown');
+      keyPress.ctrlKey = false;
+    });
+    test('should only show after 10 ms', function(done){
+      fidelComplete.delay = 10;
+      completeDiv.find('li').remove();
+      writeValue(complete, 'am');
+
+      setTimeout(function(){
+        assert.equal(completeDiv.find('li').length, 0);
+      }, 1);
+
+      setTimeout(function(){
+        assert.ok(completeDiv.find('li').length > 0);
+        done();
+      }, 11);
     });
   });
 });
