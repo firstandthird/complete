@@ -91,7 +91,7 @@ suite('complete', function() {
     });
   });
   suite('key accesibility', function(){
-    setup(function(){
+    suiteSetup(function(){
       writeValue(complete,'a');
       keyPress = $.Event('keydown');
       keyPress.ctrlKey = false;
@@ -117,6 +117,12 @@ suite('complete', function() {
       keyPress.keyCode = fidelComplete.keyCode.DOWN;
       complete.trigger(keyPress);
       var suggestionValue = fidelComplete.suggestions[fidelComplete.selectedIndex];
+      keyPress.keyCode = fidelComplete.keyCode.ENTER;
+      complete.trigger(keyPress);
+      assert.equal(complete.val(), suggestionValue);
+    });
+    test('enter should select the first value by default', function () {
+      var suggestionValue = fidelComplete.suggestions[0];
       keyPress.keyCode = fidelComplete.keyCode.ENTER;
       complete.trigger(keyPress);
       assert.equal(complete.val(), suggestionValue);
