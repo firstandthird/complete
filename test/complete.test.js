@@ -23,7 +23,8 @@ suite('complete', function() {
   suiteSetup(function(){
     complete = $('#autocomplete').complete({
       source : completeSource,
-      delay: 0
+      delay: 0,
+      sourceKey: 'name'
     });
     fidelComplete = complete.data('complete');
     completeDiv = complete.next();
@@ -171,6 +172,13 @@ suite('complete', function() {
     test('setSource should set this.source', function(){
       complete.complete('setSource', ['test', 'test2', 'America', 'France']);
       assert.equal(4, fidelComplete.source.length);
+    });
+    test('We should be able to pass an array of objects as a source', function () {
+      var expectedResult = ['test', 'test2', 'America', 'France'],
+          providedInput = [{name : 'test'}, {name: 'test2'}, {name: 'America'}, {name: 'France'}];
+
+      complete.complete('setSource', providedInput);
+      assert.deepEqual(fidelComplete.source,expectedResult);
     });
   });
   suite('format', function(){
