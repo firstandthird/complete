@@ -127,6 +127,16 @@ suite('complete', function() {
       complete.trigger(keyPress);
       assert.equal(complete.val(), suggestionValue);
     });
+    test('should accept other values if allowOthers is true', function (done) {
+      fidelComplete.allowOthers = true;
+      keyPress = $.Event('keydown');
+      keyPress.ctrlKey = false;
+      keyPress.keyCode = fidelComplete.keyCode.ENTER;
+      complete.trigger(keyPress);
+      assert.equal(complete.val(), 'a');
+      fidelComplete.allowOthers = false;
+      done();
+    });
     test('escape should return the input to the default value', function(){
       complete.trigger('keyup');
       var esc = $.Event('keydown'),
