@@ -1,0 +1,38 @@
+.complete (
+  @borderRadius: 2px,
+  @border: 1px solid #EEE,
+  @background: #FFF,
+  @activeBackground: #d9f0d4,
+  @matchingColor: #74c962
+) {
+  .complete {
+    border: @border;
+    background: @background;
+    border-radius: @borderRadius;
+    position: absolute;
+    margin: 1px;
+    overflow-y: auto;
+
+    &, & * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      padding: 5px;
+    }
+
+    .complete-active {
+      background: @activeBackground;
+    }
+    strong {
+      color: @matchingColor;
+    }
+  }
+}
