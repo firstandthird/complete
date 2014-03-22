@@ -20,7 +20,7 @@ function writeValue (complete, value) {
 suite('complete', function() {
   var complete, fidelComplete, completeDiv, keyPress;
 
-  suiteSetup(function(){
+  setup(function(){
     complete = $('#autocomplete').complete({
       source : completeSource,
       delay: 0,
@@ -28,6 +28,13 @@ suite('complete', function() {
     });
     fidelComplete = complete.data('complete');
     completeDiv = complete.next();
+  });
+  teardown(function () {
+    complete.complete('destroy');
+    complete = null;
+    fidelComplete = null;
+    completeDiv = null;
+    $('#fixture').empty().html('<input type="text" id="autocomplete">');
   });
 
   suite('init',function(){
@@ -92,7 +99,7 @@ suite('complete', function() {
     });
   });
   suite('key accesibility', function(){
-    suiteSetup(function(){
+    setup(function(){
       writeValue(complete,'a');
       keyPress = $.Event('keydown');
       keyPress.ctrlKey = false;
@@ -160,7 +167,8 @@ suite('complete', function() {
       enter.keyCode = fidelComplete.keyCode.ENTER;
       down.keyCode = fidelComplete.keyCode.DOWN;
 
-      complete.on('select',function(){
+      complete.on('select',function(e, val){
+        console.log(val);
         done();
       });
       writeValue(complete,'b');
@@ -174,30 +182,17 @@ suite('complete', function() {
       assert.equal(4, fidelComplete.source.length);
     });
     test('We should be able to pass an array of objects as a source', function () {
-      var expectedResult = ['test', 'test2', 'America', 'France'],
-          providedInput = [{name : 'test'}, {name: 'test2'}, {name: 'America'}, {name: 'France'}];
+      var expectedResult = {name : 'test', other: 'value'},
+          providedInput = [{name : 'test', other: 'value'}, {name: 'test2'}, {name: 'America'}, {name: 'France'}];
 
       complete.complete('setSource', providedInput);
-      assert.deepEqual(fidelComplete.source,expectedResult);
-    });
-  });
-  suite('format', function(){
-    setup(function(){
-      writeValue(complete,'a');
+      writeValue(complete,'t');
       keyPress = $.Event('keydown');
       keyPress.ctrlKey = false;
-    });
-    test('output', function(){
-      fidelComplete.format = function(val) {
-        return val.toUpperCase();
-      };
-
-      keyPress.keyCode = fidelComplete.keyCode.DOWN;
-      complete.trigger(keyPress);
-      var suggestionValue = fidelComplete.suggestions[fidelComplete.selectedIndex];
       keyPress.keyCode = fidelComplete.keyCode.ENTER;
       complete.trigger(keyPress);
-      assert.equal(complete.val(), suggestionValue.toUpperCase());
+      assert.equal(complete.val(), expectedResult.name);
+      assert.deepEqual(fidelComplete.currentValue, expectedResult);
     });
   });
   suite('debounce', function(){
@@ -208,7 +203,7 @@ suite('complete', function() {
     test('should only show after 10 ms', function(done){
       fidelComplete.delay = 10;
       completeDiv.find('li').remove();
-      writeValue(complete, 'am');
+      writeValue(complete, 'Ac');
 
       setTimeout(function(){
         assert.equal(completeDiv.find('li').length, 0);
