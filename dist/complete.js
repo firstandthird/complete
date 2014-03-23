@@ -1,15 +1,15 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.3.0
+ * v0.5.0
  * http://github.com/jgallen23/complete
- * copyright Greg Allen 2013
+ * copyright Greg Allen 2014
  * MIT License
 */
 /*!
  * fidel - a ui view controller
- * v2.2.3
+ * v2.2.5
  * https://github.com/jgallen23/fidel
- * copyright Greg Allen 2013
+ * copyright Greg Allen 2014
  * MIT License
 */
 (function(w, $) {
@@ -21,6 +21,7 @@
   Fidel.prototype.__init = function(options) {
     $.extend(this, this.obj);
     this.id = _id++;
+    this.namespace = '.fidel' + this.id;
     this.obj.defaults = this.obj.defaults || {};
     $.extend(this, this.obj.defaults, options);
     $('body').trigger('FidelPreInit', this);
@@ -35,8 +36,8 @@
   Fidel.prototype.setElement = function(el) {
     this.el = el;
     this.getElements();
-    this.delegateEvents();
     this.dataElements();
+    this.delegateEvents();
     this.delegateActions();
   };
 
@@ -68,7 +69,6 @@
   };
 
   Fidel.prototype.delegateEvents = function() {
-    var self = this;
     if (!this.events)
       return;
     for (var key in this.events) {
@@ -79,12 +79,12 @@
       var method = this.proxy(this[methodName]);
 
       if (selector === '') {
-        this.el.on(eventName, method);
+        this.el.on(eventName + this.namespace, method);
       } else {
         if (this[selector] && typeof this[selector] != 'function') {
-          this[selector].on(eventName, method);
+          this[selector].on(eventName + this.namespace, method);
         } else {
-          this.el.on(eventName, selector, method);
+          this.el.on(eventName + this.namespace, selector, method);
         }
       }
     }
@@ -92,7 +92,7 @@
 
   Fidel.prototype.delegateActions = function() {
     var self = this;
-    self.el.on('click', '[data-action]', function(e) {
+    self.el.on('click'+this.namespace, '[data-action]', function(e) {
       var el = $(this);
       var action = el.attr('data-action');
       if (self[action]) {
@@ -102,15 +102,15 @@
   };
 
   Fidel.prototype.on = function(eventName, cb) {
-    this.el.on(eventName+'.fidel'+this.id, cb);
+    this.el.on(eventName+this.namespace, cb);
   };
 
   Fidel.prototype.one = function(eventName, cb) {
-    this.el.one(eventName+'.fidel'+this.id, cb);
+    this.el.one(eventName+this.namespace, cb);
   };
 
   Fidel.prototype.emit = function(eventName, data, namespaced) {
-    var ns = (namespaced) ? '.fidel'+this.id : '';
+    var ns = (namespaced) ? this.namespace : '';
     this.el.trigger(eventName+ns, data);
   };
 
@@ -134,7 +134,7 @@
   Fidel.prototype.destroy = function() {
     this.el.empty();
     this.emit('destroy');
-    this.el.unbind('.fidel'+this.id);
+    this.el.unbind(this.namespace);
   };
 
   Fidel.declare = function(obj) {
@@ -204,21 +204,20 @@
   $.declare('complete',{
     defaults : {
       search : function(suggestion, queryOriginal, queryLowerCase){
-        return suggestion.toLowerCase().indexOf(queryLowerCase.toLowerCase()) !== -1;
+        return this._getSuggestion(suggestion).toLowerCase().indexOf(queryLowerCase.toLowerCase()) !== -1;
       },
-      listClass : 'fidel-complete',
-      suggestionActiveClass : 'fidel-complete-active',
-      suggestionClass : 'fidel-complete-suggestion',
+      listClass : 'complete',
+      suggestionActiveClass : 'complete-active',
+      suggestionClass : 'complete-suggestion',
       maxHeight : 300,
       minChars : 0,
       zIndex : 99999,
       delay : 300,
-      format: function(value) {
-        return value;
-      },
+      allowOthers : false,
+      sourceKey : null,
       formatSuggestion : function(suggestion, value){
         var pattern = '(' + escapeString(value) + ')';
-        return suggestion.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
+        return this._getSuggestion(suggestion).replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
       },
       query : function(query, callback){
         var queryLower = query.toLowerCase(), self = this;
@@ -227,7 +226,7 @@
           return self.search(suggestion, query, queryLower);
         });
 
-        callback.apply(this,[suggestions]);
+        callback.call(this,suggestions);
       }
     },
     events : {
@@ -248,6 +247,22 @@
       this.visible = false;
       this.currentValue = this.el.value;
       this.selectedIndex = -1;
+      this._checkUseObject();
+    },
+    _checkUseObject : function () {
+      this._useObject = this.sourceKey && typeof this.source[0] === "object";
+    },
+    _getSuggestion : function (suggestion) {
+      var value;
+
+      if (this._useObject && suggestion && suggestion[this.sourceKey]){
+        value = suggestion[this.sourceKey];
+      }
+      else {
+        value = suggestion;
+      }
+
+      return value;
     },
     debounce : function(func) {
       var self = this;
@@ -303,7 +318,7 @@
           break;
         case this.keyCode.TAB:
         case this.keyCode.ENTER:
-          this.selectSuggestion();
+          this.selectSuggestion(event);
           break;
         default:
           return;
@@ -331,7 +346,7 @@
       }
     },
     valueChanged : function(){
-      if (this.currentValue !== $(this.el).val()){
+      if (this._getSuggestion(this.currentValue) !== $(this.el).val()){
         this.el.value = $.trim($(this.el).val());
         this.currentValue = this.el.value;
         this.selectedIndex = -1;
@@ -386,7 +401,7 @@
           listHolder.scrollTop(selTop - this.maxHeight + elementHeight);
         }
 
-        $(this.el).val(this.format(this.suggestions[index]));
+        $(this.el).val(this._getSuggestion(this.suggestions[index]));
       }
     },
     hide : function(){
@@ -396,7 +411,7 @@
     show : function(){
       var self = this;
 
-      this.query.call(self,this.currentValue,function(suggestions){
+      this.query.call(self, this.currentValue, function(suggestions){
         if (suggestions && $.isArray(suggestions) && suggestions.length){
           self.visible = true;
           var value = self.currentValue,
@@ -414,6 +429,7 @@
         }
         else {
           $(self.list).empty();
+          self.suggestions = [];
           self.hide();
         }
       });
@@ -433,17 +449,31 @@
       this._getTarget(e).removeClass(this.suggestionActiveClass);
       this.selectedIndex = -1;
     },
-    selectSuggestion : function(){
-      $(this.el).val(this.format(this.suggestions[this.selectedIndex]));
-      this.currentValue = this.suggestions[this.selectedIndex];
-      this.emit('select',this.currentValue);
-      this.hide();
+    selectSuggestion : function(event){
+      if (event.type === "keydown" && this.allowOthers){
+        $(this.el).val(this.currentValue);
+        this.emit('select',this.currentValue);
+        this.hide();
+      }
+      else {
+        if (this.selectedIndex === -1){
+          this.selectedIndex = 0;
+        }
+
+        if (this.suggestions[this.selectedIndex]){
+          $(this.el).val(this._getSuggestion(this.suggestions[this.selectedIndex]));
+          this.currentValue = this.suggestions[this.selectedIndex];
+          this.emit('select',this.currentValue);
+          this.hide();
+        }
+      }
     },
     _getTarget : function(e){
       return $(e.currentTarget || e.toElement);
     },
     setSource: function(source){
       this.source = source;
+      this._checkUseObject();
     }
   });
 })(jQuery);

@@ -1,4 +1,17 @@
 
+0.5.0 / 2014-03-23 
+==================
+
+  * added custom suggestion example
+  * Improving support for array of objects as source and removed usage of map to allow IE8 compatibility
+  * Re-including less folder on bower to be able to reuse it
+  * Be able to pass array of objects as source
+  * Switch to mixin
+  * Ignoring not important files on bower
+  * Option to allow other values to be entered
+  * Selecting first option on enter by default
+  * updated dev dependencies
+
 0.4.0 / 2013-12-18 
 ==================
 
