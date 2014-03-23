@@ -7,105 +7,107 @@
   </head>
   <body>
   <label for="normalArray">Normal Array</label><input type="text" id="normalArray"/><br/>
-  <label for="objectArray">Object Array</label><input type="text" id="objectArray"/>
+  <label for="objectArray">Object Array</label><input type="text" id="objectArray"/><br/>
+  <label for="customSuggestion">Object with Custom Suggestion</label><input type="text" id="customSuggestion"/>
 
     <script src="../bower_components/jquery/jquery.min.js"></script>
     <script src="../bower_components/fidel/dist/fidel.min.js"></script>
     <script src="../dist/complete.js"></script>
     <script>
         (function(){
+            var data = [
+              {
+                name: 'Acura',
+                country: 'Japan'
+              },
+              {
+                name: 'Audi',
+                country: 'Germany'
+              },
+              {
+                name: 'BMW',
+                country: 'Germany'
+              },
+              {
+                name: 'Cadillac',
+                country: 'USA'
+              },
+              {
+                name: 'Chrysler',
+                country: 'USA'
+              },
+              {
+                name: 'Dodge',
+                country: 'USA'
+              },
+              {
+                name: 'Ferrari',
+                country: 'Italy'
+              },
+              {
+                name: 'Ford',
+                country: 'USA'
+              },
+              {
+                name: 'GMC',
+                country: 'USA'
+              },
+              {
+                name: 'Honda',
+                country: 'Japan'
+              },
+              {
+                name: 'Hyundai',
+                country: 'South Korea'
+              },
+              {
+                name: 'Infiniti',
+                country: 'Japan'
+              },
+              {
+                name: 'Jeep',
+                country: 'USA'
+              },
+              {
+                name: 'Kia',
+                country: 'South Korea'
+              },
+              {
+                name: 'Lexus',
+                country: 'Japan'
+              },
+              {
+                name: 'Mini',
+                country: 'United Kingdom'
+              },
+              {
+                name: 'Nissan',
+                country: 'Japan'
+              },
+              {
+                name: 'Porsche',
+                country: 'Germany'
+              },
+              {
+                name: 'Subaru',
+                country: 'Japan'
+              },
+              {
+                name: 'Toyota',
+                country: 'Japan'
+              },
+              {
+                name: 'Volkswagen',
+                country: 'Germany'
+              },
+              {
+                name: 'Volvo',
+                country: 'Swedish'
+              }
+            ];
             var objectArray = $('#objectArray').complete({
               sourceKey : 'name',
-              source: [
-                {
-                  name: 'Acura',
-                  country: 'Japan'
-                },
-                {
-                  name: 'Audi',
-                  country: 'Germany'
-                },
-                {
-                  name: 'BMW',
-                  country: 'Germany'
-                },
-                {
-                  name: 'Cadillac',
-                  country: 'USA'
-                },
-                {
-                  name: 'Chrysler',
-                  country: 'USA'
-                },
-                {
-                  name: 'Dodge',
-                  country: 'USA'
-                },
-                {
-                  name: 'Ferrari',
-                  country: 'Italy'
-                },
-                {
-                  name: 'Ford',
-                  country: 'USA'
-                },
-                {
-                  name: 'GMC',
-                  country: 'USA'
-                },
-                {
-                  name: 'Honda',
-                  country: 'Japan'
-                },
-                {
-                  name: 'Hyundai',
-                  country: 'South Korea'
-                },
-                {
-                  name: 'Infiniti',
-                  country: 'Japan'
-                },
-                {
-                  name: 'Jeep',
-                  country: 'USA'
-                },
-                {
-                  name: 'Kia',
-                  country: 'South Korea'
-                },
-                {
-                  name: 'Lexus',
-                  country: 'Japan'
-                },
-                {
-                  name: 'Mini',
-                  country: 'United Kingdom'
-                },
-                {
-                  name: 'Nissan',
-                  country: 'Japan'
-                },
-                {
-                  name: 'Porsche',
-                  country: 'Germany'
-                },
-                {
-                  name: 'Subaru',
-                  country: 'Japan'
-                },
-                {
-                  name: 'Toyota',
-                  country: 'Japan'
-                },
-                {
-                  name: 'Volkswagen',
-                  country: 'Germany'
-                },
-                {
-                  name: 'Volvo',
-                  country: 'Swedish'
-                }
-              ]
+              source: data
             }),
             normalArray = $('#normalArray').complete({
               source : [
@@ -117,6 +119,13 @@
                 'Volkswagen', 'Volvo'
               ]
             });
+            var customSuggestion = $('#customSuggestion').complete({
+              sourceKey : 'name',
+              source: data,
+              formatSuggestion: function(suggestion, value) {
+                return suggestion.name + ' ('+suggestion.country+')';
+              }
+            });
 
             var logValue = function(event, value){
               console.log('Selected value:', value);
@@ -124,6 +133,7 @@
 
             objectArray.on('select', logValue);
             normalArray.on('select', logValue);
+            customSuggestion.on('select', logValue);
         })(jQuery);
     </script>
   </body>
