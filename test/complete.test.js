@@ -135,16 +135,6 @@ suite('complete', function() {
       complete.trigger(keyPress);
       assert.equal(complete.val(), suggestionValue);
     });
-    test('should accept other values if allowOthers is true', function (done) {
-      fidelComplete.allowOthers = true;
-      keyPress = $.Event('keydown');
-      keyPress.ctrlKey = false;
-      keyPress.keyCode = fidelComplete.keyCode.ENTER;
-      complete.trigger(keyPress);
-      assert.equal(complete.val(), 'a');
-      fidelComplete.allowOthers = false;
-      done();
-    });
     test('escape should return the input to the default value', function(){
       complete.trigger('keyup');
       var esc = $.Event('keydown'),
@@ -157,6 +147,35 @@ suite('complete', function() {
       complete.trigger(esc);
 
       assert.equal(complete.val(), originalValue);
+    });
+  });
+  suite('allowOthers', function () {
+    setup(function () {
+      fidelComplete.allowOthers = true;
+      writeValue(complete,'a');
+      keyPress = $.Event('keydown');
+      keyPress.ctrlKey = false;
+    });
+    test('should accept other values if allowOthers is true', function () {
+      keyPress = $.Event('keydown');
+      keyPress.ctrlKey = false;
+      keyPress.keyCode = fidelComplete.keyCode.ENTER;
+      complete.trigger(keyPress);
+      assert.equal(complete.val(), 'a');
+    });
+    test('Should allow to pick suggestion as well', function () {
+      var down = $.Event('keydown'),
+          enter = $.Event('keydown');
+
+      down.keyCode = fidelComplete.keyCode.DOWN;
+      enter.keyCode = fidelComplete.keyCode.ENTER;
+      complete.trigger(down);
+      complete.trigger(enter);
+
+      assert.equal(complete.val(), fidelComplete.suggestions[fidelComplete.selectedIndex]);
+    });
+    teardown(function () {
+      fidelComplete.allowOthers = false;
     });
   });
   suite('events', function(){
