@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.5.0
+ * v0.5.1
  * http://github.com/jgallen23/complete
  * copyright Greg Allen 2014
  * MIT License
@@ -250,7 +250,7 @@
       this._checkUseObject();
     },
     _checkUseObject : function () {
-      this._useObject = this.sourceKey && typeof this.source[0] === "object";
+      this._useObject = (this.sourceKey);
     },
     _getSuggestion : function (suggestion) {
       var value;

@@ -1,4 +1,9 @@
 
+0.5.1 / 2014-03-24 
+==================
+
+  * added example with custom query, fixed bug when no source
+
 0.5.0 / 2014-03-23 
 ==================
 
