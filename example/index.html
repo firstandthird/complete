@@ -151,6 +151,10 @@
             normalArray.on('select', logValue);
             customSuggestion.on('select', logValue);
             customQuery.on('select', logValue);
+
+            setTimeout(function() {
+              $('body').prepend('<div>Hi There</div>');
+            }, 200);
         })(jQuery);
     </script>
   </body>
