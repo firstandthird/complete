@@ -8,7 +8,8 @@
   <body>
   <label for="normalArray">Normal Array</label><input type="text" id="normalArray"/><br/>
   <label for="objectArray">Object Array</label><input type="text" id="objectArray"/><br/>
-  <label for="customSuggestion">Object with Custom Suggestion</label><input type="text" id="customSuggestion"/>
+  <label for="customSuggestion">Object with Custom Suggestion</label><input type="text" id="customSuggestion"/><br/>
+  <label for="customQuery">Object with Custom Query</label><input type="text" id="customQuery"/>
 
     <script src="../bower_components/jquery/jquery.min.js"></script>
     <script src="../bower_components/fidel/dist/fidel.min.js"></script>
@@ -127,6 +128,21 @@
               }
             });
 
+            var customQuery = $('#customQuery').complete({
+              sourceKey: 'name',
+              query: function(query, callback) {
+                var queryLower = query.toLowerCase(), self = this;
+
+                var suggestions = $.grep(data, function(suggestion){
+                  return suggestion.name.toLowerCase().indexOf(queryLower) !== -1;
+                });
+
+                setTimeout(function() {
+                  callback.call(this,suggestions);
+                }, 100);
+              }
+            });
+
             var logValue = function(event, value){
               console.log('Selected value:', value);
             };
@@ -134,6 +150,7 @@
             objectArray.on('select', logValue);
             normalArray.on('select', logValue);
             customSuggestion.on('select', logValue);
+            customQuery.on('select', logValue);
         })(jQuery);
     </script>
   </body>
