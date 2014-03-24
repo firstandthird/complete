@@ -111,13 +111,20 @@ suite('complete', function() {
       assert.equal(fidelComplete.selectedIndex, currentSuggestion+1);
     });
     test('arrow up should select the previous suggestion', function(){
-      var currentSuggestion;
-      keyPress.keyCode = fidelComplete.keyCode.DOWN;
-      complete.trigger(keyPress);
+      var currentSuggestion,
+          down = $.Event('keydown'),
+          down2 = $.Event('keydown'),
+          up = $.Event('keydown');
+
+      down.keyCode = fidelComplete.keyCode.DOWN;
+      down2.keyCode = fidelComplete.keyCode.DOWN;
+      up.keyCode = fidelComplete.keyCode.UP;
+
+      complete.trigger(down);
       currentSuggestion = fidelComplete.selectedIndex;
-      complete.trigger(keyPress);
+      complete.trigger(down2);
       keyPress.keyCode = fidelComplete.keyCode.UP;
-      complete.trigger(keyPress);
+      complete.trigger(up);
 
       assert.equal(fidelComplete.selectedIndex, currentSuggestion);
     });
