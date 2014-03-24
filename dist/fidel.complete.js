@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.5.2
+ * v0.5.3
  * http://github.com/jgallen23/complete
  * copyright Greg Allen 2014
  * MIT License
@@ -42,7 +42,8 @@
     events : {
       'keydown' : 'keyPressed',
       'keyup' : 'keyUp',
-      'blur' : 'onBlur'
+      'blur' : 'onBlur',
+      'focus' : 'onFocus'
     },
     keyCode : {
       UP : 38,
@@ -100,6 +101,13 @@
 
       this.bindEventsList();
     },
+    updatePosition: function() {
+      var $el = $(this.el);
+      $(this.listHolder).css({
+        "top" : $el.position().top + $el.outerHeight(),
+        "left" : $el.position().left,
+      });
+    },
     bindEventsList : function(){
       var $list = $(this.list),
           self = this;
@@ -144,6 +152,9 @@
     },
     onBlur : function(){
       $(document).on('click.complete', this.proxy(this.onClickWA,this));
+    },
+    onFocus: function() {
+      this.updatePosition();
     },
     onClickWA : function(event){
       if ($(event.target).closest('.' + this.listClass).length === 0) {
