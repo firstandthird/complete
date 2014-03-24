@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.5.1
+ * v0.5.2
  * http://github.com/jgallen23/complete
  * copyright Greg Allen 2014
  * MIT License
@@ -247,15 +247,11 @@
       this.visible = false;
       this.currentValue = this.el.value;
       this.selectedIndex = -1;
-      this._checkUseObject();
-    },
-    _checkUseObject : function () {
-      this._useObject = (this.sourceKey);
     },
     _getSuggestion : function (suggestion) {
       var value;
 
-      if (this._useObject && suggestion && suggestion[this.sourceKey]){
+      if (!!this.sourceKey && suggestion && suggestion[this.sourceKey]){
         value = suggestion[this.sourceKey];
       }
       else {
@@ -450,7 +446,7 @@
       this.selectedIndex = -1;
     },
     selectSuggestion : function(event){
-      if (event.type === "keydown" && this.allowOthers){
+      if (event.type === "keydown" && this.allowOthers && this.selectedIndex < 0){
         $(this.el).val(this.currentValue);
         this.emit('select',this.currentValue);
         this.hide();
@@ -473,7 +469,6 @@
     },
     setSource: function(source){
       this.source = source;
-      this._checkUseObject();
     }
   });
 })(jQuery);

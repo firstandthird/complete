@@ -1,4 +1,10 @@
 
+0.5.2 / 2014-03-24 
+==================
+
+  * Proper event creation
+  * Fixing and adding more tests
+
 0.5.1 / 2014-03-24 
 ==================
 
