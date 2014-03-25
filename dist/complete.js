@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.5.3
+ * v0.5.4
  * http://github.com/jgallen23/complete
  * copyright Greg Allen 2014
  * MIT License
@@ -248,6 +248,7 @@
       this.visible = false;
       this.currentValue = this.el.value;
       this.selectedIndex = -1;
+      this.suggestions = [];
     },
     _getSuggestion : function (suggestion) {
       var value;
@@ -337,7 +338,7 @@
         case this.keyCode.DOWN :
           return;
       }
-
+      this._generatedSuggestions = false;
       this.debounce(this.valueChanged);
     },
     onBlur : function(){
@@ -365,6 +366,7 @@
           this.hide();
         }
       }
+      this._generatedSuggestions = true;
     },
     _getSuggestions : function(query){
       var queryLower = query.toLowerCase(), self = this;
@@ -425,6 +427,7 @@
               className = self.suggestionClass,
               html = '';
 
+          self.suggestions = [];
           self.suggestions = suggestions;
 
           $.each(suggestions, function(i, suggestion){
@@ -457,9 +460,23 @@
       this.selectedIndex = -1;
     },
     selectSuggestion : function(event){
+      // If the user hits enter before the debounce finishes, we force a generation of the suggestions
+      if(!this._generatedSuggestions){
+        this.valueChanged();
+      }
+
       if (event.type === "keydown" && this.allowOthers && this.selectedIndex < 0){
-        $(this.el).val(this.currentValue);
-        this.emit('select',this.currentValue);
+        var firstSuggestion = this._getSuggestion(this.suggestions[0]);
+
+        if (this.suggestions.length === 1 && firstSuggestion === this.currentValue){
+          this.currentValue = this.suggestions[0];
+          $(this.el).val(this._getSuggestion(this.currentValue));
+        }
+        else {
+          $(this.el).val(this.currentValue);
+        }
+
+        this.emit('complete:select',this.currentValue);
         this.hide();
       }
       else {
@@ -470,7 +487,7 @@
         if (this.suggestions[this.selectedIndex]){
           $(this.el).val(this._getSuggestion(this.suggestions[this.selectedIndex]));
           this.currentValue = this.suggestions[this.selectedIndex];
-          this.emit('select',this.currentValue);
+          this.emit('complete:select',this.currentValue);
           this.hide();
         }
       }
