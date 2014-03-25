@@ -5,7 +5,97 @@ var completeSource = [
   'Jeep', 'Kia', 'Lexus', 'Mini',
   'Nissan', 'Porsche', 'Subaru', 'Toyota',
   'Volkswagon', 'Volvo'
-];
+    ],
+    completeObjectSource = [
+      {
+        name: 'Acura',
+        country: 'Japan'
+      },
+      {
+        name: 'Audi',
+        country: 'Germany'
+      },
+      {
+        name: 'BMW',
+        country: 'Germany'
+      },
+      {
+        name: 'Cadillac',
+        country: 'USA'
+      },
+      {
+        name: 'Chrysler',
+        country: 'USA'
+      },
+      {
+        name: 'Dodge',
+        country: 'USA'
+      },
+      {
+        name: 'Ferrari',
+        country: 'Italy'
+      },
+      {
+        name: 'Ford',
+        country: 'USA'
+      },
+      {
+        name: 'GMC',
+        country: 'USA'
+      },
+      {
+        name: 'Honda',
+        country: 'Japan'
+      },
+      {
+        name: 'Hyundai',
+        country: 'South Korea'
+      },
+      {
+        name: 'Infiniti',
+        country: 'Japan'
+      },
+      {
+        name: 'Jeep',
+        country: 'USA'
+      },
+      {
+        name: 'Kia',
+        country: 'South Korea'
+      },
+      {
+        name: 'Lexus',
+        country: 'Japan'
+      },
+      {
+        name: 'Mini',
+        country: 'United Kingdom'
+      },
+      {
+        name: 'Nissan',
+        country: 'Japan'
+      },
+      {
+        name: 'Porsche',
+        country: 'Germany'
+      },
+      {
+        name: 'Subaru',
+        country: 'Japan'
+      },
+      {
+        name: 'Toyota',
+        country: 'Japan'
+      },
+      {
+        name: 'Volkswagen',
+        country: 'Germany'
+      },
+      {
+        name: 'Volvo',
+        country: 'Swedish'
+      }
+    ];
 
 function changeValueAndGetFirst (complete, completeDiv, value){
   complete.val(value);
@@ -181,6 +271,14 @@ suite('complete', function() {
 
       assert.equal(complete.val(), fidelComplete.suggestions[fidelComplete.selectedIndex]);
     });
+    test('Should get the full object in case the full suggestion has been introduced', function () {
+      complete.complete('setSource', completeObjectSource);
+      writeValue(complete,'Acura');
+      var enter = $.Event('keydown');
+      enter.keyCode = fidelComplete.keyCode.ENTER;
+      complete.trigger(enter);
+      assert.deepEqual(fidelComplete.currentValue, completeObjectSource[0]);
+    });
     teardown(function () {
       fidelComplete.allowOthers = false;
     });
@@ -193,11 +291,29 @@ suite('complete', function() {
       enter.keyCode = fidelComplete.keyCode.ENTER;
       down.keyCode = fidelComplete.keyCode.DOWN;
 
-      complete.on('select',function(e, val){
-        console.log(val);
+      complete.on('complete:select',function(){
         done();
       });
       writeValue(complete,'b');
+      complete.trigger(down);
+      complete.trigger(enter);
+    });
+    test('The \'select\' event will have the full object in case an array of objects has been provided', function (done) {
+      var expectedResult = completeObjectSource[0];
+      var enter = $.Event('keydown'),
+          down = $.Event('keydown');
+
+      enter.keyCode = fidelComplete.keyCode.ENTER;
+      down.keyCode = fidelComplete.keyCode.DOWN;
+
+      complete.on('complete:select',function(e, val){
+        assert.deepEqual(val, expectedResult);
+        done();
+      });
+
+      complete.complete('setSource', completeObjectSource);
+      writeValue(complete,'A');
+
       complete.trigger(down);
       complete.trigger(enter);
     });
@@ -208,15 +324,15 @@ suite('complete', function() {
       assert.equal(4, fidelComplete.source.length);
     });
     test('We should be able to pass an array of objects as a source', function () {
-      var expectedResult = {name : 'test', other: 'value'},
-          providedInput = [{name : 'test', other: 'value'}, {name: 'test2'}, {name: 'America'}, {name: 'France'}];
+      var expectedResult = completeObjectSource[0];
 
-      complete.complete('setSource', providedInput);
-      writeValue(complete,'t');
+      complete.complete('setSource', completeObjectSource);
+      writeValue(complete,'A');
       keyPress = $.Event('keydown');
       keyPress.ctrlKey = false;
       keyPress.keyCode = fidelComplete.keyCode.ENTER;
       complete.trigger(keyPress);
+
       assert.equal(complete.val(), expectedResult.name);
       assert.deepEqual(fidelComplete.currentValue, expectedResult);
     });

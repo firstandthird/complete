@@ -130,6 +130,7 @@
 
             var customQuery = $('#customQuery').complete({
               sourceKey: 'name',
+              allowOthers: true,
               query: function(query, callback) {
                 var queryLower = query.toLowerCase(), self = this;
 
@@ -147,10 +148,10 @@
               console.log('Selected value:', value);
             };
 
-            objectArray.on('select', logValue);
-            normalArray.on('select', logValue);
-            customSuggestion.on('select', logValue);
-            customQuery.on('select', logValue);
+            objectArray.on('complete:select', logValue);
+            normalArray.on('complete:select', logValue);
+            customSuggestion.on('complete:select', logValue);
+            customQuery.on('complete:select', logValue);
 
             setTimeout(function() {
               $('body').prepend('<div>Hi There</div>');
