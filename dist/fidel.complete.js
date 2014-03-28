@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.5.4
+ * v0.5.5
  * http://github.com/jgallen23/complete
  * copyright Greg Allen 2014
  * MIT License
@@ -120,6 +120,7 @@
       $list.on('click', 'li', this.proxy(this.selectSuggestion,this));
     },
     keyPressed : function(event){
+      var propagate = true;
       switch(event.keyCode){
         case this.keyCode.UP :
           this._prevSuggestion();
@@ -132,6 +133,9 @@
           this.hide();
           break;
         case this.keyCode.TAB:
+          propagate = false;
+          this.selectSuggestion(event);
+          break;
         case this.keyCode.ENTER:
           this.selectSuggestion(event);
           break;
@@ -139,8 +143,10 @@
           return;
       }
 
-      event.stopImmediatePropagation();
-      event.preventDefault();
+      if (propagate) {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      }
     },
     keyUp : function(event){
       switch(event.keyCode){
