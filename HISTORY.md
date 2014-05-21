@@ -1,4 +1,10 @@
 
+0.6.0 / 2014-05-21 
+==================
+
+  * Shows selection box by default on click.
+  * Updated build scripts.
+
 0.5.5 / 2014-03-28 
 ==================
 

@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.5.5
+ * v0.6.0
  * https://github.com/firstandthird/complete
  * copyright First+Third 2014
  * MIT License
@@ -209,12 +209,13 @@
       listClass : 'complete',
       suggestionActiveClass : 'complete-active',
       suggestionClass : 'complete-suggestion',
-      maxHeight : 300,
+      maxHeight : 142,
       minChars : 0,
       zIndex : 99999,
       delay : 300,
       allowOthers : false,
       sourceKey : null,
+      showOnClick : true,
       formatSuggestion : function(suggestion, value){
         var pattern = '(' + escapeString(value) + ')';
         return this._getSuggestion(suggestion).replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
@@ -233,7 +234,8 @@
       'keydown' : 'keyPressed',
       'keyup' : 'keyUp',
       'blur' : 'onBlur',
-      'focus' : 'onFocus'
+      'focus' : 'onFocus',
+      'click' : 'valueChanged'
     },
     keyCode : {
       UP : 38,
@@ -359,13 +361,13 @@
         $(document).off('click.complete');
       }
     },
-    valueChanged : function(){
-      if (this._getSuggestion(this.currentValue) !== $(this.el).val()){
+    valueChanged : function(e){
+      if (this._getSuggestion(this.currentValue) !== $(this.el).val() || (typeof e !== 'undefined' && this.showOnClick)){
         this.el.value = $.trim($(this.el).val());
         this.currentValue = this.el.value;
         this.selectedIndex = -1;
 
-        if (this.currentValue.length > this.minChars){
+        if (this.currentValue.length >= this.minChars){
           this.show();
         }
         else {
