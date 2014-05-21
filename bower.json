@@ -2,22 +2,22 @@
   "name": "complete",
   "description": "Autocomplete Plugin",
   "version": "0.5.5",
-  "homepage": "http://github.com/jgallen23/complete",
+  "homepage": "https://github.com/firstandthird/complete",
   "license": "MIT",
-  "copyright": "Greg Allen",
-  "main": "dist/fidel.complete.js",
+  "copyright": "First+Third",
+  "main": "dist/complete.bower.js",
   "dependencies": {
-    "fidel": "2.*",
-    "jquery" : "1.10.x"
   },
   "devDependencies": {
-    "assert": "*"
+    "assert": "*",
+    "blanket": "*"
   },
   "ignore": [
     "test",
     "example",
     "lib",
     "Gruntfile.js",
-    "package.json"
+    "package.json",
+    "grunt"
   ]
 }
