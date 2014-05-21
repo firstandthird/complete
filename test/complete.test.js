@@ -146,6 +146,11 @@ suite('complete', function() {
       writeValue(complete,'a');
       assert.ok(completeDiv.find('li').length > 0);
     });
+    test('complete should offer suggestions on click', function(){
+      complete.trigger('click');
+
+      assert.ok(completeDiv.find('li').length > 0);
+    });
     test('complete shouldn\'t offer suggestions when value is not in source', function(){
       writeValue(complete,'z');
       assert.equal(completeDiv.find('li').length, 0);
