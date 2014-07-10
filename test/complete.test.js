@@ -237,6 +237,15 @@ suite('complete', function() {
       complete.trigger(keyPress);
       assert.equal(complete.val(), suggestionValue);
     });
+		test('enter should not fire a new query', function () {
+			var called = false;
+
+			fidelComplete.query = function () {
+				called = true;
+			};
+			keyPress.keyCode = fidelComplete.keyCode.ENTER;
+			assert.equal(called, false);
+		});
     test('escape should return the input to the default value', function(){
       complete.trigger('keyup');
       var esc = $.Event('keydown'),
