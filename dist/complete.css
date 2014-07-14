@@ -20,6 +20,9 @@
 .complete li {
   padding: 5px;
 }
+.complete li:hover {
+  cursor: pointer;
+}
 .complete .complete-active {
   background: #d9f0d4;
 }

@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.6.0
+ * v0.6.1
  * https://github.com/firstandthird/complete
  * copyright First+Third 2014
  * MIT License
@@ -298,7 +298,7 @@
       var $el = $(this.el);
       $(this.listHolder).css({
         "top" : $el.position().top + $el.outerHeight(),
-        "left" : $el.position().left,
+        "left" : $el.position().left
       });
     },
     bindEventsList : function(){
@@ -325,17 +325,15 @@
           this.hide();
           break;
         case this.keyCode.TAB:
-          propagate = false;
-          this.selectSuggestion(event);
-          break;
         case this.keyCode.ENTER:
+          propagate = false;
           this.selectSuggestion(event);
           break;
         default:
           return;
       }
 
-      if (propagate) {
+      if (!propagate) {
         event.stopImmediatePropagation();
         event.preventDefault();
       }
@@ -344,6 +342,7 @@
       switch(event.keyCode){
         case this.keyCode.UP :
         case this.keyCode.DOWN :
+        case this.keyCode.ENTER:
           return;
       }
       this._generatedSuggestions = false;

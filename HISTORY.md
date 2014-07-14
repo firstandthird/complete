@@ -1,4 +1,10 @@
 
+0.6.1 / 2014-07-13 
+==================
+
+  * Fixing bug and some potential bugs
+  * Pointer cursor on item hover
+
 0.6.0 / 2014-05-21 
 ==================
 
