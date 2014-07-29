@@ -388,4 +388,16 @@ suite('complete', function() {
       }, 11);
     });
   });
+  suite('keepOpen', function(){
+    test('should stay open when clicking outside', function(){
+      fidelComplete.keepOpen = true;
+      complete.trigger('click');
+
+      assert.ok(completeDiv.find('li').length > 0);
+
+      $(document).trigger('click.complete');
+
+      assert.equal(completeDiv.css('display'), 'block');
+    });
+  });
 });
