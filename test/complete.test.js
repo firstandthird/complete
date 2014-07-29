@@ -331,6 +331,23 @@ suite('complete', function() {
       complete.trigger(down);
       complete.trigger(enter);
     });
+    test('a \'query\' event should be fired when a query is made', function(done){
+      var enter = $.Event('keydown'),
+          down = $.Event('keydown');
+
+      enter.keyCode = fidelComplete.keyCode.ENTER;
+      down.keyCode = fidelComplete.keyCode.DOWN;
+
+      complete.on('complete:select',function(e, val){
+        done();
+      });
+
+      complete.complete('setSource', completeObjectSource);
+      writeValue(complete,'A');
+
+      complete.trigger(down);
+      complete.trigger(enter);
+    });
   });
   suite('source', function(){
     test('setSource should set this.source', function(){
