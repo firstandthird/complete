@@ -26,6 +26,7 @@
       allowOthers : false,
       sourceKey : null,
       showOnClick : true,
+      keepOpen : false,
       formatSuggestion : function(suggestion, value){
         var pattern = '(' + escapeString(value) + ')';
         return this._getSuggestion(suggestion).replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
@@ -165,9 +166,11 @@
       this.updatePosition();
     },
     onClickWA : function(event){
-      if ($(event.target).closest('.' + this.listClass).length === 0) {
+      if (!this.keepOpen && $(event.target).closest('.' + this.listClass).length === 0) {
         this.hide();
         $(document).off('click.complete');
+      } else {
+        this.emit('complete:outsideclick');
       }
     },
     valueChanged : function(e){
@@ -238,6 +241,7 @@
       var self = this;
 
       this.query.call(self, this.currentValue, function(suggestions){
+        self.emit('complete:query', suggestions);
         if (suggestions && $.isArray(suggestions) && suggestions.length){
           self.visible = true;
           var value = self.currentValue,
