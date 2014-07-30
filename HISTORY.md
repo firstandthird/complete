@@ -1,4 +1,11 @@
 
+0.7.0 / 2014-07-30
+==================
+
+ * Merge pull request #24 from firstandthird/feature/issue-22-23
+ * Option for keepOpen.
+ * Added complete:query event when a query is made.
+
 0.6.1 / 2014-07-13 
 ==================
 
