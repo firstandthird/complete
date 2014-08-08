@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.6.1
+ * v0.8.0
  * https://github.com/firstandthird/complete
  * copyright First+Third 2014
  * MIT License
@@ -20,6 +20,7 @@
       suggestionActiveClass : 'complete-active',
       suggestionClass : 'complete-suggestion',
       maxHeight : 142,
+      listWidth: false,
       minChars : 0,
       zIndex : 99999,
       delay : 300,
@@ -96,7 +97,7 @@
       this.list.appendTo(this.listHolder);
 
       $(this.listHolder).css({
-        "width" : $el.outerWidth(),
+        "width" : this.listWidth || $el.outerWidth(),
         "top" : $el.position().top + $el.outerHeight(),
         "left" : $el.position().left,
         "max-height" : this.maxHeight,

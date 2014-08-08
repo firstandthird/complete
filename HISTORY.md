@@ -1,4 +1,10 @@
 
+0.8.0 / 2014-08-08 
+==================
+
+  * unix line endings
+  * Add option to override dropdown width
+
 0.7.0 / 2014-07-30
 ==================
 
