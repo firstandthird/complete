@@ -114,7 +114,8 @@ suite('complete', function() {
     complete = $('#autocomplete').complete({
       source : completeSource,
       delay: 0,
-      sourceKey: 'name'
+      sourceKey: 'name',
+      isTest: true
     });
     fidelComplete = complete.data('complete');
     completeDiv = complete.next();
