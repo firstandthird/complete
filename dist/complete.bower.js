@@ -1,8 +1,8 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.8.0
+ * v0.9.0
  * https://github.com/firstandthird/complete
- * copyright First+Third 2014
+ * copyright First+Third 2015
  * MIT License
 */
 (function($){
@@ -28,6 +28,7 @@
       sourceKey : null,
       showOnClick : true,
       keepOpen : false,
+      isTest: false, // focus isn't working correctly in tests
       formatSuggestion : function(suggestion, value){
         var pattern = '(' + escapeString(value) + ')';
         return this._getSuggestion(suggestion).replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
@@ -243,7 +244,13 @@
 
       this.query.call(self, this.currentValue, function(suggestions){
         self.emit('complete:query', suggestions);
-        if (suggestions && $.isArray(suggestions) && suggestions.length){
+        var show = true;
+
+        if (!self.isTest && !self.keepOpen && !self.el.is(':focus')) {
+          show = false;
+        }
+
+        if (suggestions && $.isArray(suggestions) && suggestions.length && show){
           self.visible = true;
           var value = self.currentValue,
               className = self.suggestionClass,

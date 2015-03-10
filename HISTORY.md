@@ -1,4 +1,9 @@
 
+0.9.9 / 2015-03-10
+==================
+
+  * Fixed a problem where the results would show up if you clicked out before results were loaded up.
+
 0.8.0 / 2014-08-08 
 ==================
 
