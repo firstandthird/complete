@@ -1,6 +1,6 @@
 /*!
  * complete - Autocomplete Plugin
- * v0.9.0
+ * v0.10.0
  * https://github.com/firstandthird/complete
  * copyright First+Third 2015
  * MIT License
@@ -138,6 +138,8 @@
           this.hide();
           break;
         case this.keyCode.TAB:
+          this.selectSuggestion(event);
+          break;
         case this.keyCode.ENTER:
           propagate = false;
           this.selectSuggestion(event);
