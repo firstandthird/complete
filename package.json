@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "nswatch",
     "build": "mkdir -p dist && browserify lib/complete.js -t [ babelify --presets [ es2015 ] ] -o dist/complete.js -s Complete",
-    "test": "browserify -t [ babelify --presets [ es2015 ] ] test/complete.test.js | tape-run --render tap-spec",
+    "test": "browserify -t [ babelify --presets [ es2015 ] ] test/complete.test.js | tape-run --static . --browser phantomjs --render tap-spec",
     "lint": "eslint . --ignore-pattern dist",
     "prepublish": "npm run build"
   },
@@ -40,11 +40,13 @@
     "babelify": "^7.3.0",
     "browserify": "^13.3.0",
     "concurrently": "^3.1.0",
+    "core-js": "^2.4.1",
     "domodule": "^4.0.0",
     "eslint": "^3.9.1",
     "eslint-config-firstandthird": "^3.2.0",
     "eslint-plugin-import": "^2.2.0",
     "nswatch": "^0.2.0",
+    "phantomjs": "^2.1.7",
     "static-server": "^2.0.3",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3",
