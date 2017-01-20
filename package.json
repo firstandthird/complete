@@ -27,14 +27,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/firstandthird/formbuilder.git"
+    "url": "git+https://github.com/firstandthird/complete.git"
   },
   "author": "First+Third",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/firstandthird/formbuilder/issues"
+    "url": "https://github.com/firstandthird/complete/issues"
   },
-  "homepage": "https://github.com/firstandthird/formbuilder#readme",
+  "homepage": "https://github.com/firstandthird/complete#readme",
   "devDependencies": {
     "babel-preset-es2015": "^6.18.0",
     "babelify": "^7.3.0",
