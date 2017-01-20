@@ -1,4 +1,0 @@
-styles:
-  src:
-    - 'less/default.less'
-  dest: 'dist/<%= name %>.css'
