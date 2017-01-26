@@ -8,22 +8,10 @@
     "autocomplete"
   ],
   "scripts": {
-    "dev": "nswatch",
-    "build": "mkdir -p dist && scriptkit",
-    "test": "browserify -t [ babelify --presets [ es2015 ] ] test/complete.test.js | tape-run --static . --browser phantomjs --render tap-spec",
-    "lint": "eslint . --ignore-pattern dist",
-    "prepublish": "npm run build"
-  },
-  "watch": {
-    "lib/*.js": [
-      "lint",
-      "build",
-      "test"
-    ],
-    "test/*.js": [
-      "lint",
-      "test"
-    ]
+    "build": "scriptkit build",
+    "dev": "scriptkit dev",
+    "test": "cat test/complete.test.dist.js | tape-run --static . --browser phantomjs --render tap-spec",
+    "prepublish": "scriptkit"
   },
   "repository": {
     "type": "git",
@@ -36,20 +24,13 @@
   },
   "homepage": "https://github.com/firstandthird/complete#readme",
   "devDependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "babelify": "^7.3.0",
-    "browserify": "^13.3.0",
-    "concurrently": "^3.1.0",
-    "core-js": "^2.4.1",
-    "eslint": "^3.9.1",
-    "eslint-config-firstandthird": "^3.2.0",
-    "eslint-plugin-import": "^2.2.0",
-    "nswatch": "^0.2.0",
+    "eslint-config-firstandthird": "^3.1.0",
+    "eslint-plugin-import": "^2.1.0",
     "phantomjs": "^2.1.7",
     "scriptkit": "0.0.17",
     "static-server": "^2.0.3",
     "tap-spec": "^4.1.1",
-    "tape": "^4.6.3",
+    "tape-rollup": "4.6.4",
     "tape-run": "^2.1.5"
   },
   "eslintConfig": {
@@ -72,11 +53,18 @@
   },
   "scriptkit": {
     "scripts": {
-      "dist/complete.js": "lib/complete.js"
+      "commonjs": {
+        "enabled": true
+      },
+      "files": {
+        "dist/complete.js": "lib/complete.js",
+        "test/complete.test.dist.js": "test/complete.test.js"
+      }
     }
   },
   "dependencies": {
     "bequest": "^1.3.1",
-    "domodule": "^4.0.0"
+    "domodule": "^4.0.0",
+    "tinybounce": "0.0.1"
   }
 }

@@ -1,8 +1,7 @@
 
-import 'core-js';
 import Domodule from '../lib/complete';
 
-import { test } from 'tape';
+import test from 'tape-rollup';
 
 const testEndpoint = './test/autocomplete.json';
 
