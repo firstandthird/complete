@@ -35,7 +35,7 @@ test('example module registerd', assert => {
   assert.end();
 });
 
-test('search', assert => {
+test.skip('search', assert => {
   const modules = setup();
   const instance = modules[0];
 
@@ -52,7 +52,7 @@ test('search', assert => {
   page.sendEvent('keypress', 'a');
 });
 
-test('select', assert => {
+test.skip('select', assert => {
   const modules = setup();
   const instance = modules[0];
 

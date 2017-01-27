@@ -1,6 +1,6 @@
 {
   "name": "@firstandthird/complete",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Super simple autocomplete library for domodule",
   "main": "dist/complete.js",
   "module": "lib/complete.js",
