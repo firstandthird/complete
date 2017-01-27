@@ -1,5 +1,5 @@
 
-import Domodule from '../lib/complete';
+import Complete from '../lib/complete';
 
 import test from 'tape-rollup';
 
@@ -23,15 +23,15 @@ const setup = () => {
       </div>
     </div>
   `;
-  const modules = Domodule.discover();
+  const modules = Complete.discover();
   return modules;
 };
 
 init();
 
 test('example module registerd', assert => {
-  assert.equal(typeof Domodule.modules, 'object');
-  assert.equal(Object.keys(Domodule.modules).length, 1, 'one module registered');
+  assert.equal(typeof Complete.modules, 'object');
+  assert.equal(Object.keys(Complete.modules).length, 1, 'one module registered');
   assert.end();
 });
 
