@@ -16,11 +16,10 @@ const init = () => {
 const setup = () => {
   const container = document.getElementById('domodule');
   container.innerHTML = `
-    <div data-module="Complete" data-module-endpoint="${testEndpoint}">
+    <div data-module="Complete" data-module-endpoint="${testEndpoint}" data-module-highlight-class="complete-selected">
       <input type="text" data-name="input" data-action="search" data-action-type="input" placeholder="Search for something">
-      <div data-name="resultsContainer">
-        <ul data-name="results"></ul>
-      </div>
+      <input type="hidden" data-name="value">
+      <div data-name="resultsContainer"></div>
     </div>
   `;
   const modules = Complete.discover();
@@ -62,7 +61,38 @@ test('select', assert => {
 
     page.sendEvent('click', pos.left + pos.width / 2, pos.top + pos.height / 2);
 
-    assert.equal(instance.els.input.value, 'test1', 'Value selected');
+    assert.equal(instance.els.value.value, 'test1', 'Value selected');
+    assert.end();
+  }, 1000);
+
+  instance.els.input.focus();
+  page.sendEvent('keypress', 'a');
+});
+
+test('keyboard', assert => {
+  const modules = setup();
+  const instance = modules[0];
+
+  setTimeout(() => {
+    page.sendEvent('keypress', 16777237); //down
+    page.sendEvent('keypress', 16777237);
+
+    const elements = document.querySelectorAll('li');
+
+    assert.ok(!elements[0].classList.contains('complete-selected'), 'Selected class removed');
+    assert.ok(elements[1].classList.contains('complete-selected'), 'selected class added');
+
+    page.sendEvent('keypress', 16777235); // up
+
+    assert.ok(!elements[1].classList.contains('complete-selected'), 'Selected class removed');
+    assert.ok(elements[0].classList.contains('complete-selected'), 'selected class added');
+
+    page.sendEvent('keypress', 16777221); // enter
+
+    assert.equal(instance.els.value.value, 'test1', 'Value selected');
+
+    assert.ok(!elements[0].classList.contains('complete-selected'), 'Selected class removed');
+
     assert.end();
   }, 1000);
 
