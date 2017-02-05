@@ -35,7 +35,7 @@ test('example module registerd', assert => {
   assert.end();
 });
 
-test.skip('search', assert => {
+test('search', assert => {
   const modules = setup();
   const instance = modules[0];
 
@@ -46,13 +46,13 @@ test.skip('search', assert => {
     assert.equal(elements[0].dataset.action, 'select', 'Action setup');
     assert.equal(elements[0].dataset.actionValue, 'test1', 'Action value setup');
     assert.end();
-  }, 100);
+  }, 1000);
 
   instance.els.input.focus();
   page.sendEvent('keypress', 'a');
 });
 
-test.skip('select', assert => {
+test('select', assert => {
   const modules = setup();
   const instance = modules[0];
 
@@ -64,7 +64,7 @@ test.skip('select', assert => {
 
     assert.equal(instance.els.input.value, 'test1', 'Value selected');
     assert.end();
-  }, 100);
+  }, 1000);
 
   instance.els.input.focus();
   page.sendEvent('keypress', 'a');
