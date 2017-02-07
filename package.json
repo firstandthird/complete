@@ -47,13 +47,16 @@
     },
     "scripts": {
       "babel": {
-        "exclude": [ "node_modules/tape-rollup/*" ]
+        "exclude": [
+          "node_modules/tape-rollup/*"
+        ]
       }
     }
   },
   "dependencies": {
     "bequest": "1.3.1",
-    "domodule": "4.0.1",
+    "domassist": "1.5.0",
+    "domodule": "5.0.1",
     "tinybounce": "0.0.1"
   }
 }
