@@ -2,176 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>complete example</title>
-    <link rel="stylesheet" type="text/css" href="../dist/complete.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Complete playground</title>
+    <link rel="stylesheet" type="text/css" media="all" href="/lib/complete.css">
   </head>
   <body>
-  <label for="normalArray">Normal Array</label><input type="text" id="normalArray"/><br/>
-  <label for="objectArray">Object Array</label><input type="text" id="objectArray"/><br/>
-  <label for="customSuggestion">Object with Custom Suggestion</label><input type="text" id="customSuggestion"/><br/>
-  <label for="customQuery">Object with Custom Query</label><input type="text" id="customQuery"/><br/>
-  <label for="keepOpen">Keep open</label><input type="text" id="keepOpen"/><br/>
-
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../bower_components/fidel/dist/fidel.min.js"></script>
-    <script src="../dist/complete.bower.js"></script>
-    <script>
-        (function(){
-            var data = [
-              {
-                name: 'Acura',
-                country: 'Japan'
-              },
-              {
-                name: 'Audi',
-                country: 'Germany'
-              },
-              {
-                name: 'BMW',
-                country: 'Germany'
-              },
-              {
-                name: 'Cadillac',
-                country: 'USA'
-              },
-              {
-                name: 'Chrysler',
-                country: 'USA'
-              },
-              {
-                name: 'Dodge',
-                country: 'USA'
-              },
-              {
-                name: 'Ferrari',
-                country: 'Italy'
-              },
-              {
-                name: 'Ford',
-                country: 'USA'
-              },
-              {
-                name: 'GMC',
-                country: 'USA'
-              },
-              {
-                name: 'Honda',
-                country: 'Japan'
-              },
-              {
-                name: 'Hyundai',
-                country: 'South Korea'
-              },
-              {
-                name: 'Infiniti',
-                country: 'Japan'
-              },
-              {
-                name: 'Jeep',
-                country: 'USA'
-              },
-              {
-                name: 'Kia',
-                country: 'South Korea'
-              },
-              {
-                name: 'Lexus',
-                country: 'Japan'
-              },
-              {
-                name: 'Mini',
-                country: 'United Kingdom'
-              },
-              {
-                name: 'Nissan',
-                country: 'Japan'
-              },
-              {
-                name: 'Porsche',
-                country: 'Germany'
-              },
-              {
-                name: 'Subaru',
-                country: 'Japan'
-              },
-              {
-                name: 'Toyota',
-                country: 'Japan'
-              },
-              {
-                name: 'Volkswagen',
-                country: 'Germany'
-              },
-              {
-                name: 'Volvo',
-                country: 'Swedish'
-              }
-            ];
-            var objectArray = $('#objectArray').complete({
-              sourceKey : 'name',
-              source: data
-            }),
-            normalArray = $('#normalArray').complete({
-              source : [
-                'Acura', 'Audi', 'BMW', 'Cadillac',
-                'Chrysler', 'Dodge', 'Ferrari', 'Ford',
-                'GMC', 'Honda', 'Hyundai', 'Infiniti',
-                'Jeep', 'Kia', 'Lexus', 'Mini',
-                'Nissan', 'Porsche', 'Subaru', 'Toyota',
-                'Volkswagen', 'Volvo'
-              ]
-            });
-            var customSuggestion = $('#customSuggestion').complete({
-              sourceKey : 'name',
-              source: data,
-              formatSuggestion: function(suggestion, value) {
-                return suggestion.name + ' ('+suggestion.country+')';
-              }
-            });
-
-            var customQuery = $('#customQuery').complete({
-              sourceKey: 'name',
-              allowOthers: true,
-              query: function(query, callback) {
-                var queryLower = query.toLowerCase(), self = this;
-
-                var suggestions = $.grep(data, function(suggestion){
-                  return suggestion.name.toLowerCase().indexOf(queryLower) !== -1;
-                });
-
-                setTimeout(function() {
-                  callback.call(this,suggestions);
-                }, 100);
-              }
-            });
-
-            var keepOpen = $('#keepOpen').complete({
-              keepOpen: true,
-              source : [
-                'Acura', 'Audi', 'BMW', 'Cadillac',
-                'Chrysler', 'Dodge', 'Ferrari', 'Ford',
-                'GMC', 'Honda', 'Hyundai', 'Infiniti',
-                'Jeep', 'Kia', 'Lexus', 'Mini',
-                'Nissan', 'Porsche', 'Subaru', 'Toyota',
-                'Volkswagen', 'Volvo'
-              ]
-            });
-
-            var logValue = function(event, value){
-              console.log('Selected value:', value);
-            };
-
-            objectArray.on('complete:select', logValue);
-            normalArray.on('complete:select', logValue);
-            customSuggestion.on('complete:select', logValue);
-            customQuery.on('complete:select', logValue);
-            keepOpen.on('complete:select', logValue);
-            keepOpen.on('complete:outsideclick', function() { console.log('Clicked outside'); });
-
-            setTimeout(function() {
-              $('body').prepend('<div>Hi There</div>');
-            }, 200);
-        })(jQuery);
-    </script>
+    <div data-module="Complete" data-module-endpoint="../test/autocomplete.json?q=${term}">
+      <input type="text" data-name="input" data-action="search" data-action-type="input" placeholder="Search for something">
+      <div data-name="resultsContainer">
+        <ul data-name="results"></ul>
+      </div>
+      <p>Some copy here</p>
+    </div>
+    <script src="../dist/complete.js"></script>
   </body>
 </html>

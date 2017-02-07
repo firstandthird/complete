@@ -1,5 +1,3 @@
-.DS_Store
+test
 node_modules
-bower_components
-reports
-dist/_bower.js
+.git
