@@ -22,8 +22,8 @@ const setup = () => {
       <div data-name="resultsContainer"></div>
     </div>
   `;
-  const modules = Complete.discover();
-  return modules;
+
+  return Complete.discover();
 };
 
 init();
@@ -98,4 +98,35 @@ test('keyboard', assert => {
 
   instance.els.input.focus();
   page.sendEvent('keypress', 'a');
+  page.sendEvent('keypress', 16777235); // up
+  page.sendEvent('keypress', 'b');
+  assert.equal(instance.els.input.value, 'ab', 'Cursor caret doesn\'t move with up/down arrows');
+});
+
+test('strict', assert => {
+  const container = document.getElementById('domodule');
+  container.innerHTML = `
+    <div data-module="Complete" data-module-endpoint="${testEndpoint}" data-module-strict="false" data-module-highlight-class="complete-selected">
+      <input type="text" data-name="input" data-action="search" data-action-type="input" placeholder="Search for something">
+      <input type="hidden" data-name="value">
+      <div data-name="resultsContainer"></div>
+    </div>
+  `;
+
+  const modules = Complete.discover();
+  const instance = modules[0];
+
+  setTimeout(() => {
+    page.sendEvent('keypress', 16777221); // enter
+
+    assert.equal(instance.els.value.value, 'ab', 'Value copied as is to value');
+    assert.equal(instance.els.input.value, 'ab', 'Value is the same on the input');
+
+    assert.end();
+  }, 1000);
+
+  instance.els.input.focus();
+  page.sendEvent('keypress', 'a');
+  page.sendEvent('keypress', 'b');
+  console.log(instance.els.value.value);
 });
