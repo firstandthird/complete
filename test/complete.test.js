@@ -128,5 +128,4 @@ test('strict', assert => {
   instance.els.input.focus();
   page.sendEvent('keypress', 'a');
   page.sendEvent('keypress', 'b');
-  console.log(instance.els.value.value);
 });
