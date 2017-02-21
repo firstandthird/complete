@@ -1,26 +1,26 @@
-[data-module="Complete"] {
+[data-module="Complete"], .module-complete {
   display: inline-block;
   position: relative;
 }
 
-[data-module="Complete"] [data-name="resultsContainer"] {
+[data-module="Complete"] [data-name="resultsContainer"], .module-complete [data-name="resultsContainer"] {
   background: white;
   position: absolute;
   top: 20px;
   width: 100%;
 }
 
-[data-module="Complete"] [data-name="resultsContainer"] ul {
+[data-module="Complete"] [data-name="resultsContainer"] ul, .module-complete [data-name="resultsContainer"] ul {
   margin: 0;
   padding: 0;
 }
 
-[data-module="Complete"] [data-name="resultsContainer"] ul li {
+[data-module="Complete"] [data-name="resultsContainer"] ul li, .module-complete [data-name="resultsContainer"] ul li {
   cursor: pointer;
   padding: 5px;
 }
 
-[data-module="Complete"] [data-name="resultsContainer"] ul li:hover,
-[data-module="Complete"] [data-name="resultsContainer"] ul li.selected {
+[data-module="Complete"] [data-name="resultsContainer"] ul li:hover, .module-complete [data-name="resultsContainer"] ul li:hover,
+[data-module="Complete"] [data-name="resultsContainer"] ul li.selected, .module-complete [data-name="resultsContainer"] ul li.selected {
   background-color: #ccc;
 }
