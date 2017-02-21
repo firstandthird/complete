@@ -62,6 +62,7 @@ test('select', assert => {
     page.sendEvent('click', pos.left + pos.width / 2, pos.top + pos.height / 2);
 
     assert.equal(instance.els.value.value, 'test1', 'Value selected');
+    assert.equal(instance.els.resultsContainer.innerHTML, '', 'Dropdown removed');
     assert.end();
   }, 1000);
 
