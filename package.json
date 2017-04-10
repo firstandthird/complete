@@ -54,9 +54,9 @@
     }
   },
   "dependencies": {
-    "bequest": "1.3.1",
-    "domassist": "1.6.1",
-    "domodule": "5.1.1",
+    "bequest": "1.3.2",
+    "domassist": "1.8.0",
+    "domodule": "5.1.2",
     "tinybounce": "0.0.1"
   }
 }
