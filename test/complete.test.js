@@ -1,7 +1,6 @@
-
 import Complete from '../lib/complete';
-
 import test from 'tape-rollup';
+import { once } from 'domassist';
 
 const testEndpoint = './test/autocomplete.json';
 
@@ -54,16 +53,19 @@ test('search', assert => {
 test('select', assert => {
   const modules = setup();
   const instance = modules[0];
+  assert.plan(3);
 
   setTimeout(() => {
     const elements = document.querySelectorAll('li');
     const pos = elements[0].getBoundingClientRect();
 
+    once(instance.els.input, 'change', e => {
+      assert.equal(e.detail.value, 'test1', 'Change event fired');
+    });
     page.sendEvent('click', pos.left + pos.width / 2, pos.top + pos.height / 2);
 
     assert.equal(instance.els.value.value, 'test1', 'Value selected');
     assert.equal(instance.els.resultsContainer.innerHTML, '', 'Dropdown removed');
-    assert.end();
   }, 1000);
 
   instance.els.input.focus();
