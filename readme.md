@@ -1,5 +1,8 @@
 ## Complete
 
+[![Build Status](https://travis-ci.org/firstandthird/complete.svg?branch=master)](https://travis-ci.org/firstandthird/complete)
+![npm](https://img.shields.io/npm/v/@firstandthird/complete.svg)
+
 Example html
 
 ```html

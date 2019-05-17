@@ -1,4 +1,4 @@
-import Complete from '../lib/complete';
+import Complete from '../';
 import test from 'tape-rollup';
 import { once } from 'domassist';
 
@@ -26,12 +26,6 @@ const setup = () => {
 };
 
 init();
-
-test('example module registerd', assert => {
-  assert.equal(typeof Complete.modules, 'object');
-  assert.equal(Object.keys(Complete.modules).length, 1, 'one module registered');
-  assert.end();
-});
 
 test('search', assert => {
   const modules = setup();

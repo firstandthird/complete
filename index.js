@@ -11,7 +11,7 @@ const KEYS = {
   DOWN: 40
 };
 
-export default class Complete extends Domodule {
+export default class Index extends Domodule {
   postInit() {
     this.currentIndex = -1;
     DOMAssist.on(this.els.input, 'keydown', event => this.keydown(event));
@@ -199,4 +199,4 @@ export default class Complete extends Domodule {
   }
 }
 
-Domodule.register('Complete', Complete);
+Domodule.register('Complete', Index);
