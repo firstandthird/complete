@@ -1,9 +1,22 @@
-## Complete
+# Complete [![Build Status](https://travis-ci.org/firstandthird/complete.svg?branch=master)](https://travis-ci.org/firstandthird/complete) ![npm](https://img.shields.io/npm/v/@firstandthird/complete.svg)
 
-[![Build Status](https://travis-ci.org/firstandthird/complete.svg?branch=master)](https://travis-ci.org/firstandthird/complete)
-![npm](https://img.shields.io/npm/v/@firstandthird/complete.svg)
+Super simple autocomplete library for domodule
 
-Example html
+## Installation
+
+```sh
+npm install @firstandthird/complete
+```
+
+## Usage
+
+```js
+import '@firstandthird/complete';
+// or
+import Complete from '@firstandthird/complete';
+```
+
+## Example HTML
 
 ```html
 <div data-module="Complete" data-module-endpoint="/api/autocomplete?q=${term}">
