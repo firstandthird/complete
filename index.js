@@ -51,7 +51,7 @@ export default class Index extends Domodule {
   }
 
   fetch() {
-    const url = this.endpoint.replace(/\$\{term\}/g, this.term);
+    const url = this.endpoint.replace(/\$\{term\}/g, encodeURIComponent(this.term));
 
     Bequest.request(url, 'GET', {}, (err, resp) => {
       // @TODO: Do something with this?
