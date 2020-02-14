@@ -33,7 +33,7 @@ test('search', assert => {
 
   setTimeout(() => {
     const elements = document.querySelectorAll('li');
-    assert.equal(elements.length, 2, 'Correct number of elements rendered');
+    assert.equal(elements.length, 3, 'Correct number of elements rendered');
     assert.equal(elements[0].innerHTML, 'Test 1', 'First element correct');
     assert.equal(elements[0].dataset.action, 'select', 'Action setup');
     assert.equal(elements[0].dataset.actionValue, 'test1', 'Action value setup');
