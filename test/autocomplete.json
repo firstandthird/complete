@@ -6,5 +6,9 @@
   {
     "value": "test2",
     "name": "Test 2"
+  },
+  {
+    "value": "some-value",
+    "name": "Some & Company"
   }
 ]

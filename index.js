@@ -107,6 +107,13 @@ export default class Index extends Domodule {
       this.els.value.value = value.value;
     }
 
+    this.els.input.value = this.els.input.value.replace(/&amp;/g, '&')
+      .replace(/&gt;/g, '>')
+      .replace(/&lt;/g, '<')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, '\'')
+      .replace(/&#96;/g, '`');
+
     fire(this.els.input, 'change', { bubbles: true, detail: value });
   }
 
